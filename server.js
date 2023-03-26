@@ -1,19 +1,11 @@
-var GtfsRealtimeBindings = require('gtfs-realtime-bindings');
-var request = require('request');
+const express = require('express')
+const app = express()
+const port = 3000
 
-var requestSettings = {
-  method: 'GET',
-  url: 'https://gtfs.halifax.ca/realtime/Vehicle/VehiclePositions.pb',
-  encoding: null
-};
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 
-request(requestSettings, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(body);
-     const myJSON = feed.toJSON();
-     console.log(typeof(myJSON))
-     console.log(myJSON.entity[0])
-
-
-  }
-});
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
