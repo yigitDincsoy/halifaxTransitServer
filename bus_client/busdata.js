@@ -8,7 +8,7 @@ let icon_dynamic;
 let selectedBusId;
 
 
-function geoJSONCreator(lat, long, icon, rot) { //convert the initial JSON data to GeoJSON format
+function geoJSONCreator(lat, long, icon, rot) { //convert the initial JSON data to fundamental GeoJSON format
     return geoObj = {
         "type": "Feature",
         "properties": {
@@ -22,7 +22,6 @@ function geoJSONCreator(lat, long, icon, rot) { //convert the initial JSON data 
         
     }
 }
-
 
 function deletePrevious() { //Deletes all previous data
 
@@ -53,19 +52,26 @@ function createMarkers(busDataToCreate) { //Adds a marker on the map for each bu
                 specificDirection = `Secondary Route`
             }
 
-        dynamicIcon(selectedBusId)
+        dynamicIcon(selectedBusId, specificDirection)
+       
+       //Create GeoJSON data from the standard JSON data
+        let geoJsonData = geoJSONCreator(currentX, currentY, icon_rotatingbus, rotation);
 
-        //method 1: use the legacy way to create the bus icons
-        arr_markers[i] = L.marker([currentX, currentY], {icon: icon_rotatingbus, rotationAngle: rotation}).addTo(map); 
-    
+        arr_markers[i] = L.geoJSON(geoJsonData, {
+        pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: geoJsonData.properties.icon, rotationAngle:geoJsonData.properties.rotation});}})
+        .addTo(map);   
+
+        //For the Canvas-based Dynamic Image Markers, use the alternative / legacy way
+        arr_routemarkers[i] = L.marker([currentX, currentY], {icon: icon_dynamic}).addTo(map).bindPopup(specificDirection);
         
-      
     }
 
 
 }
 
 function busRender() { //Get JSON data & call other functions
+    
     //Get the required JSON Data from NSCC API
     fetch('http://backend.yigitdincsoy.com/')
     .then(function(response){
@@ -120,7 +126,7 @@ function listRoutes() { //Dynamicially populates the selection list of buses
 
 }
 
-function dynamicIcon(busNo) { //Dynamicially creates images for buses
+function dynamicIcon(busNo, specdif) { //Dynamicially creates images for buses
     const c = document.getElementById("myCanvas");
     let ctx2 = c.getContext("2d");
     ctx2.beginPath();
@@ -131,13 +137,21 @@ function dynamicIcon(busNo) { //Dynamicially creates images for buses
     ctx2.textAlign = "center";
     ctx2.fillStyle = "black";
     ctx2.font = "24px Calibri";
-    ctx2.fillText(busNo, 32, 35);
+    ctx2.fillText(busNo, 32, 32);
     ctx2.font = "16px Calibri";
     ctx2.fillStyle = "black";
-    ctx2.fillText("BUS", 32, 50)
-    ctx2.fillStyle = "green";
-    ctx2.fillText("█", 32, 70)
+   // ctx2.fillText("BUS", 32, 15)
+   
     ctx2.fillStyle = "red";
+    ctx2.font = "italic 15px Calibri";
+    if (specdif == `Secondary Route`) {
+    ctx2.fillText("Returning", 32, 50) 
+    ctx2.fillStyle = "red";
+    ctx2.fillText("█", 32, 70)} else
+    {ctx2.fillStyle = "blue";
+    ctx2.fillText("En Route", 32, 50)
+    ctx2.fillStyle = "green";
+    ctx2.fillText("█", 32, 70)}
     ctx2.stroke();
     const canvas2 = document.getElementById('myCanvas');
     const img2 = canvas2.toDataURL('image/png');
@@ -156,25 +170,3 @@ function dynamicIcon(busNo) { //Dynamicially creates images for buses
 
 busRender();
 
-//
-
-
-/*
-
-var geojsonFeature = {
-    "type": "Feature",
-    "properties": {
-        "name": "Coors Field",
-        "amenity": "Baseball Stadium",
-        "popupContent": "This is where the Rockies play!"
-    },
-    "geometry": {
-        "type": "Point",
-        "coordinates": [-104.99404, 39.75621]
-    }
-};
-
-L.geoJSON(geojsonFeature, {
-    onEachFeature: myFunction
-}).addTo(map);
-*/
