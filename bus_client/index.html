@@ -2,33 +2,41 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>HRM Transit GPS Tracker</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HRM Transit GPS Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
     <script defer src="init.js"></script>
     <script defer src="busdata.js"></script>
     <script defer src="leaflet.rotatedMarker.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
+
+
 </head>
 
 <body>
 
     <div id="title">
-        <h2>HRM Transit GPS Tracker</h2> 
+        <h2>HRM Transit GPS Tracker</h2>
     </div>
-        <div id="mainDiv"> 
-            
-            <div id= "map"></div> </div>
-            <div id="bottomDiv">
-                <label for="busoptions">Choose your bus:</label>
-            <select name="busoptions" id="busoptions">
-            </select>
-            
-        </div>
+    <div id="mainDiv">
 
-    
+        <div id="map"></div>
+    </div>
+    <div id="bottomDiv">
+        <label for="busoptions">Choose your bus:</label>
+        <select name="busoptions" id="busoptions">
+        </select>
+
+    </div>
+
+
     <!-- An invisible shell for Canvas based dynamic bus image creation -->
     <canvas id="myCanvas" width="64" style="display:none;" height="64" style="border:1px solid #d3d3d3;"></canvas>
 

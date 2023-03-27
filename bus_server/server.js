@@ -38,7 +38,8 @@ function startServer() {
   const express = require("express");
   const app = express();
   const cors = require('cors')
-  app.use(cors(corsOptions));
+  // app.use(cors(corsOptions));
+  app.use(cors());
   const port = 3000;
 
   

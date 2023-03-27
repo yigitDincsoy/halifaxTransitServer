@@ -1,7 +1,9 @@
-body {height: 100vh;}
+body {height: 100vh;
+    font-family: 'Ubuntu', sans-serif;
+}
 
 #title {
-    height: 8vh;
+    height: 8dvh;
     color: white;
     background-color: #0047B6;
     display: flex;
@@ -17,14 +19,15 @@ body {height: 100vh;}
 
 #mainDiv {
     background-color: #0047B6;
-    height: 80vh;
+    height: 80dvh;
 }
 
 #bottomDiv {
     background-color: #FDD44F;
-    height: 10vh;
+    height: 10dvh;
     font-size: x-large;
     display: flex;
+    direction: column;
     justify-content: center;
     align-items: center;
 }
